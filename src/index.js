@@ -1,5 +1,6 @@
 const { response } = require("express");
 const express = require("express");
+const { get } = require("express/lib/response");
 //a uuid v4 gera valores randomicos. para entender melhor as versoes, ler a doc
 const { v4: uuidv4 } = require("uuid");
 
@@ -132,6 +133,14 @@ app.delete("/account", verifyIfExistAccountCPF, (req, res) => {
     customers.splice(customer, 1);
 
     return res.status(200).json(customers);
+});
+
+app.get("/balance", verifyIfExistAccountCPF, (req, res) => {
+    const { customer } = req;
+
+    const balance = getBalance(customer.statatement);
+
+    return res.json(balance);
 });
 
 app.listen(3333);
